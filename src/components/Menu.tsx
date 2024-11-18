@@ -25,7 +25,7 @@ const menuItems = [
       },
       {
         icon: "/dashboard-sustainability.png",
-        label: "Sustainability & RSPPO Compliance",
+        label: "Sustainability & RSPO Compliance",
         href: "/basic",
         visible: ["admin"],
       },

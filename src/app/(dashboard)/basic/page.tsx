@@ -1,12 +1,15 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import UserCard from '@/components/UserCard';
-import { provinces, districts, cardData } from '@/lib/data-basic';
+import { useState, useEffect } from "react";
+import UserCard from "@/components/UserCard";
+import { provinces, districts, cardData } from "@/lib/data-basic";
+import CountChart from "@/components/CountChart";
+import EventCalendar from "@/components/EventCalendar";
+import Announcements from "@/components/Announcements";
 
 const BasicPage = () => {
-  const [selectedProvince, setSelectedProvince] = useState('14'); // Riau
-  const [selectedDistrict, setSelectedDistrict] = useState('1400'); // All District
+  const [selectedProvince, setSelectedProvince] = useState("14"); // Riau
+  const [selectedDistrict, setSelectedDistrict] = useState("1400"); // All District
   const [currentCardData, setCurrentCardData] = useState<CardData[]>([]);
 
   // Define the CardData type
@@ -16,7 +19,7 @@ const BasicPage = () => {
   };
 
   useEffect(() => {
-    if (selectedDistrict === '1400') {
+    if (selectedDistrict === "1400") {
       // Jika district "All District", maka jumlahkan semua data dari distrik dalam Riau
       const totalData: CardData[] = [];
       const districtsInRiau = districts[selectedProvince];
@@ -41,25 +44,32 @@ const BasicPage = () => {
   }, [selectedProvince, selectedDistrict]);
 
   // Fungsi untuk mengubah provinsi
-  const handleProvinceChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleProvinceChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
     const province = event.target.value;
     setSelectedProvince(province);
-    setSelectedDistrict('1400'); // Reset district ke "All District"
+    setSelectedDistrict("1400"); // Reset district ke "All District"
   };
 
   // Fungsi untuk mengubah district
-  const handleDistrictChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleDistrictChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
     setSelectedDistrict(event.target.value);
   };
 
   return (
     <div className="p-4 flex gap-4 flex-col md:flex-row">
-      <div className="w-full lg:w-2/3">
+      <div className="w-full lg:w-3/4 flex flex-col gap-4">
         {/* Select Box Container */}
         <div className="flex gap-4 mb-4">
           {/* Province Select */}
           <div className="w-1/2">
-            <label htmlFor="province" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="province"
+              className="block text-sm font-medium text-gray-700"
+            >
               Province:
             </label>
             <select
@@ -78,7 +88,10 @@ const BasicPage = () => {
 
           {/* District Select */}
           <div className="w-1/2">
-            <label htmlFor="district" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="district"
+              className="block text-sm font-medium text-gray-700"
+            >
               District:
             </label>
             <select
@@ -103,13 +116,29 @@ const BasicPage = () => {
               <UserCard key={index} type={data.type} count={data.count} />
             ))
           ) : (
-            <p className="text-center text-gray-500">No data available for the selected province and district.</p>
+            <p className="text-center text-gray-500">
+              No data available for the selected province and district.
+            </p>
           )}
         </div>
+        {/* Middle Chart */}
+        <div className="flex gap-4 flex-col lg:flex-row">
+          {/* CountChart */}
+          <div className="w-full lg:w-1/3 h-[450px]">
+            <CountChart />
+          </div>
+          {/* Production Chart */}
+          <div className="w-full lg:w-2/3 h-[450px]"></div>
+        </div>
+        {/* Bottom Chart */}
+        <div></div>
       </div>
 
       {/* Right Sidebar or Other Content */}
-      <div className="w-full lg:w-1/3">Right</div>
+      <div className="w-full lg:w-1/4 flex flex-col gap-8">
+        <EventCalendar />
+        <Announcements/>
+      </div>
     </div>
   );
 };
